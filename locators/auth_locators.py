@@ -6,4 +6,9 @@ class AuthLocators:
     INPUT_PASSWORD = (By.NAME, "password")
     INPUT_SUBMIT_PASSWORD = (By.NAME, "submitPassword")
     BUTTON_CREATE_ACCOUNT = (By.XPATH, ".//button[text()='Создать аккаунт']")
+    RED_BORDER_ELEMENT = (By.XPATH, ".//div[contains(@class,'input_inputError')]")
+    INPUT_EMAIL_WITH_ERROR = (By.XPATH, RED_BORDER_ELEMENT[1] + "/input[@name='email']")
+    INPUT_PASSWORD_WITH_ERROR = (By.XPATH, RED_BORDER_ELEMENT[1] + "/input[@name='password']")
+    INPUT_SUBMIT_PASSWORD_WITH_ERROR = (By.XPATH, RED_BORDER_ELEMENT[1] + "/input[@name='submitPassword']")
+    ERROR_TEXT = (By.XPATH, RED_BORDER_ELEMENT[1] + "/ancestor::div/span[text()='Ошибка']")
     
