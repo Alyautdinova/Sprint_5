@@ -37,3 +37,33 @@ class TestUserRegistration():
         assert user_name_element == "User."
 
         googleDriver.quit()
+
+    def test_registration_invalid_email_and_empty_password(self, googleDriver: WebDriver):
+            email = f"user_{random.randint(0, 111)}"
+    
+            #открытие страницы
+            googleDriver.get("https://qa-desk.education-services.ru/")
+            
+            #нажатие на кнопку "Вход и регистрация"
+            googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
+    
+            #ждет появление кнопки "Нет аккаунта" и нажимает ее
+            button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.visibility_of_element_located(AuthLocators.BUTTON_NO_ACCOUNT))
+            button_no_account.click()
+    
+            #заполнение формы регистрации - email, пароль и подтверждение пароля
+            googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(email)
+            
+            #нажатие на кнопку "Создать аккаунт"
+            googleDriver.find_element(*AuthLocators.BUTTON_CREATE_ACCOUNT).click()
+    
+            #проверка, что отображаются красные границы для полей email, пароль и подтвержение пароля
+            input_error_email = WebDriverWait(googleDriver, 3).until(expected_conditions.visibility_of_element_located(AuthLocators.INPUT_EMAIL_WITH_ERROR))
+            input_error_email.is_displayed()
+            assert googleDriver.find_element(*AuthLocators.INPUT_PASSWORD_WITH_ERROR).is_displayed()
+            assert googleDriver.find_element(*AuthLocators.INPUT_SUBMIT_PASSWORD_WITH_ERROR).is_displayed()
+
+            #проверка, что отображается текст с Ошибкой
+            assert googleDriver.find_element(*AuthLocators.ERROR_TEXT).is_displayed
+
+            googleDriver.quit()
