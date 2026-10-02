@@ -17,6 +17,7 @@ class TestAuth:
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
         button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
         button_no_account.click()
+        WebDriverWait(googleDriver, 10).until(expected_conditions.visibility_of_element_located(AuthLocators.INPUT_EMAIL))
         googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(email)
         googleDriver.find_element(*AuthLocators.INPUT_PASSWORD).send_keys(password)
         googleDriver.find_element(*AuthLocators.INPUT_SUBMIT_PASSWORD).send_keys(password)
