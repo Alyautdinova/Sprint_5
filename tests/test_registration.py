@@ -7,6 +7,7 @@ import random
 
 class TestUserRegistration():
 
+    #тест по регистрации пользователя с валидными данными
     def test_registration_successful(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}@example.com"
         password = "Test1909;"
@@ -38,6 +39,7 @@ class TestUserRegistration():
 
         googleDriver.quit()
 
+    #тест по регистрации пользователя с невалидными email и без пароля
     def test_registration_invalid_email_and_empty_password(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}"
     
@@ -68,6 +70,7 @@ class TestUserRegistration():
 
         googleDriver.quit()
 
+    #тест по регистрации существующего в системе пользователя
     def test_registration_with_exist_user(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}@example.com"
         password = "Test1909;"
@@ -97,7 +100,7 @@ class TestUserRegistration():
         #нажатие на кнопку Выйти
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGOUT).click()
 
-        #повторная попытка регистрации с теме же данными
+        #повторная попытка регистрации с теми же данными
         button_login_and_registration = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION))
         button_login_and_registration.click()
         button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
