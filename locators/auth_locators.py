@@ -12,3 +12,5 @@ class AuthLocators:
     INPUT_SUBMIT_PASSWORD_WITH_ERROR = (By.XPATH, RED_BORDER_ELEMENT[1] + "/input[@name='submitPassword']")
     ERROR_TEXT = (By.XPATH, RED_BORDER_ELEMENT[1] + "/ancestor::div/span[text()='Ошибка']")
     BUTTON_LOGIN = (By.XPATH, ".//button[text()='Войти']")
+    HEADER_NEED_LOGIN = (By.XPATH, ".//h1[text()='Чтобы разместить объявление, авторизуйтесь']")
+    
