@@ -3,6 +3,7 @@ from locators.auth_locators import AuthLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.webdriver import WebDriver
+from data.urls import Urls
 import random
 
 class TestAuth:
@@ -13,7 +14,7 @@ class TestAuth:
         password = "Test1909;"
 
         #регистрация пользователя
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_UR)
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
         button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
         button_no_account.click()
@@ -35,7 +36,7 @@ class TestAuth:
         googleDriver.find_element(*AuthLocators.BUTTON_LOGIN).click()
 
         #проверка урла
-        assert googleDriver.current_url == "https://qa-desk.education-services.ru/login"
+        assert googleDriver.current_url == Urls.LOGIN_URL
 
         #проверка имени юзера
         user_name_element = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.USER_NAME_ELEMENT)).text
@@ -52,7 +53,7 @@ class TestAuth:
         password = "Test1909;"
 
         #регистрация пользователя
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_UR)
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
         button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
         button_no_account.click()

@@ -3,6 +3,7 @@ from locators.auth_locators import AuthLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.webdriver import WebDriver
+from data.urls import Urls
 import random
 
 class TestUserRegistration():
@@ -13,7 +14,7 @@ class TestUserRegistration():
         password = "Test1909;"
 
         #открытие страницы
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_URL)
         
         #нажатие на кнопку "Вход и регистрация"
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
@@ -31,7 +32,7 @@ class TestUserRegistration():
         googleDriver.find_element(*AuthLocators.BUTTON_CREATE_ACCOUNT).click()
 
         #проверка урла
-        assert googleDriver.current_url == "https://qa-desk.education-services.ru/regiatration"
+        assert googleDriver.current_url == Urls.REGISTRATION_URL
 
         #проверка имени юзера
         user_name_element = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.USER_NAME_ELEMENT)).text
@@ -44,7 +45,7 @@ class TestUserRegistration():
         email = f"user_{random.randint(0, 111)}"
     
         #открытие страницы
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_URL)
             
         #нажатие на кнопку "Вход и регистрация"
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
@@ -76,7 +77,7 @@ class TestUserRegistration():
         password = "Test1909;"
 
         #открытие страницы
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_URL)
         
         #нажатие на кнопку "Вход и регистрация"
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()

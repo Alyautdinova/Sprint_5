@@ -5,13 +5,14 @@ from locators.profile_locators import ProfileLocators
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.webdriver import WebDriver
+from data.urls import Urls
 import random
 
 class TestCreateListing:
 
     #тест по размещению объявления анонимом
     def test_create_listning_without_login(self, googleDriver: WebDriver):
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_UR)
 
         #нажатие на кнопку Разместить объявление
         googleDriver.find_element(*HeaderLocators.BUTTON_CREATE_LISTNING).click()
@@ -30,7 +31,7 @@ class TestCreateListing:
         price = 5000
 
         #регистрация пользователя
-        googleDriver.get("https://qa-desk.education-services.ru/")
+        googleDriver.get(Urls.BASE_UR)
         googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
         button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
         button_no_account.click()
@@ -74,7 +75,7 @@ class TestCreateListing:
         button_avatar.click()
 
         #проверка что перешли на страницу Профиля
-        assert googleDriver.current_url == "https://qa-desk.education-services.ru/profile"
+        assert googleDriver.current_url == Urls.PROFILE_URL
 
         #проверка что карточка с заданными параметрами создалась
         listning_name_element = WebDriverWait(googleDriver, 10).until(expected_conditions.visibility_of_element_located(ProfileLocators.LISTNING_NAME))
