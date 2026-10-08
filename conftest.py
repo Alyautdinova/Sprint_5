@@ -6,4 +6,6 @@ def googleDriver():
     chrome_options = webdriver.ChromeOptions() # создали объект для опций
     driver = webdriver.Chrome(options=chrome_options) # создали драйвер и передали в него настройки
 
-    return driver
+    yield driver
+
+    driver.quit()

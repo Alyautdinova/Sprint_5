@@ -38,8 +38,6 @@ class TestUserRegistration():
         user_name_element = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.USER_NAME_ELEMENT)).text
         assert user_name_element == "User."
 
-        googleDriver.quit()
-
     #тест по регистрации пользователя с невалидными email и без пароля
     def test_registration_invalid_email_and_empty_password(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}"
@@ -68,8 +66,6 @@ class TestUserRegistration():
 
         #проверка, что отображается текст с Ошибкой
         assert googleDriver.find_element(*AuthLocators.ERROR_TEXT).is_displayed
-
-        googleDriver.quit()
 
     #тест по регистрации существующего в системе пользователя
     def test_registration_with_exist_user(self, googleDriver: WebDriver):
@@ -119,5 +115,3 @@ class TestUserRegistration():
 
         #проверка, что отображается текст с Ошибкой
         assert googleDriver.find_element(*AuthLocators.ERROR_TEXT).is_displayed
-
-        googleDriver.quit()

@@ -45,8 +45,6 @@ class TestAuth:
         #проверка отображения аватарки
         assert googleDriver.find_element(*HeaderLocators.BUTTON_AVATAR).is_displayed()
 
-        googleDriver.quit()
-
     #тест на выход
     def test_logout(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}@example.com"
@@ -81,5 +79,3 @@ class TestAuth:
 
         #проверка что аватарка не отображается
         assert len(googleDriver.find_elements(*HeaderLocators.BUTTON_AVATAR)) == 0
-
-        googleDriver.quit()

@@ -21,8 +21,6 @@ class TestCreateListing:
         header_element = WebDriverWait(googleDriver, 10).until(expected_conditions.visibility_of_element_located(AuthLocators.HEADER_NEED_LOGIN))
         assert header_element.is_displayed()
 
-        googleDriver.quit()
-
     #тест по размещению объявления авторизованным
     def test_create_listning_with_login(self, googleDriver: WebDriver):
         email = f"user_{random.randint(0, 111)}@example.com"
@@ -82,5 +80,3 @@ class TestCreateListing:
         assert listning_name_element.text == "listning_name"
         assert googleDriver.find_element(*ProfileLocators.LISTNING_CITY).text == "Казань"
         assert googleDriver.find_element(*ProfileLocators.LISTNING_PRICE).text == str(price)
-
-        googleDriver.quit()
