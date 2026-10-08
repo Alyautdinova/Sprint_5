@@ -6,7 +6,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.webdriver import WebDriver
 from data.urls import Urls
-import random
+from data.data_test import TestUserData, ListningData
 
 class TestCreateListing:
 
@@ -23,21 +23,15 @@ class TestCreateListing:
 
     #тест по размещению объявления авторизованным
     def test_create_listning_with_login(self, googleDriver: WebDriver):
-        email = f"user_{random.randint(0, 111)}@example.com"
-        password = "Test1909;"
-        listning_name = "Тестовое объяление"
-        price = 5000
+        #открытие страницы
+        googleDriver.get(Urls.BASE_URL)
 
-        #регистрация пользователя
-        googleDriver.get(Urls.BASE_UR)
-        googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).click()
-        button_no_account = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(AuthLocators.BUTTON_NO_ACCOUNT))
-        button_no_account.click()
-        WebDriverWait(googleDriver, 10).until(expected_conditions.visibility_of_element_located(AuthLocators.INPUT_EMAIL))
-        googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(email)
-        googleDriver.find_element(*AuthLocators.INPUT_PASSWORD).send_keys(password)
-        googleDriver.find_element(*AuthLocators.INPUT_SUBMIT_PASSWORD).send_keys(password)
-        googleDriver.find_element(*AuthLocators.BUTTON_CREATE_ACCOUNT).click()
+        #вход под зарегистрированным пользователем
+        button_login_and_registration = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION))
+        button_login_and_registration.click()
+        googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(TestUserData.TEST_EMAIL)
+        googleDriver.find_element(*AuthLocators.INPUT_PASSWORD).send_keys(TestUserData.TEST_PASSWORD)
+        googleDriver.find_element(*AuthLocators.BUTTON_LOGIN).click()
 
         #убеждаемся что пользователь авторизован
         WebDriverWait(googleDriver, 10).until( expected_conditions.visibility_of_element_located(HeaderLocators.BUTTON_AVATAR))
@@ -47,9 +41,9 @@ class TestCreateListing:
         button_create_listing.click()
 
         #заполнение полей: «Название», «Описание товара», «Стоимость»
-        googleDriver.find_element(*ListningLocators.INPUT_LISTNING_NAME).send_keys(listning_name)
+        googleDriver.find_element(*ListningLocators.INPUT_LISTNING_NAME).send_keys(ListningData.LISTNING_NAME)
         googleDriver.find_element(*ListningLocators.TEXTAREA_DESCRIPTION).send_keys("Тестовое описание")
-        googleDriver.find_element(*ListningLocators.INPUT_PRICE).send_keys(price)
+        googleDriver.find_element(*ListningLocators.INPUT_PRICE).send_keys(ListningData.PRICE)
 
         #выбор города Казань
         googleDriver.find_element(*ListningLocators.ARROW_CITY).click()
@@ -79,4 +73,4 @@ class TestCreateListing:
         listning_name_element = WebDriverWait(googleDriver, 10).until(expected_conditions.visibility_of_element_located(ProfileLocators.LISTNING_NAME))
         assert listning_name_element.text == "listning_name"
         assert googleDriver.find_element(*ProfileLocators.LISTNING_CITY).text == "Казань"
-        assert googleDriver.find_element(*ProfileLocators.LISTNING_PRICE).text == str(price)
+        assert googleDriver.find_element(*ProfileLocators.LISTNING_PRICE).text == str(ListningData.PRICE)
