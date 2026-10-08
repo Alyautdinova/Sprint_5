@@ -4,14 +4,14 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.chrome.webdriver import WebDriver
 from data.urls import Urls
-import random
+from data.data_test import UserData
 
 class TestUserRegistration():
 
     #тест по регистрации пользователя с валидными данными
     def test_registration_successful(self, googleDriver: WebDriver):
-        email = f"user_{random.randint(0, 111)}@example.com"
-        password = "Test1909;"
+        email = UserData.EMAIL
+        password = UserData.PASSWORD
 
         #открытие страницы
         googleDriver.get(Urls.BASE_URL)
@@ -40,7 +40,7 @@ class TestUserRegistration():
 
     #тест по регистрации пользователя с невалидными email и без пароля
     def test_registration_invalid_email_and_empty_password(self, googleDriver: WebDriver):
-        email = f"user_{random.randint(0, 111)}"
+        email = UserData.EMAIL
     
         #открытие страницы
         googleDriver.get(Urls.BASE_URL)
@@ -69,8 +69,8 @@ class TestUserRegistration():
 
     #тест по регистрации существующего в системе пользователя
     def test_registration_with_exist_user(self, googleDriver: WebDriver):
-        email = f"user_{random.randint(0, 111)}@example.com"
-        password = "Test1909;"
+        email = UserData.EMAIL
+        password = UserData.PASSWORD
 
         #открытие страницы
         googleDriver.get(Urls.BASE_URL)
