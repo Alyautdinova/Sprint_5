@@ -1,0 +1,56 @@
+from locators.header_locators import HeaderLocators
+from locators.auth_locators import AuthLocators
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.webdriver.chrome.webdriver import WebDriver
+from data.urls import Urls
+from data.data_test import TestUserData
+
+class TestAuth:
+
+    #тест на вход под существующим в системе пользователем
+    def test_login_with_exist_user(self, googleDriver: WebDriver):
+        #открытие страницы
+        googleDriver.get(Urls.BASE_URL)
+        
+        #вход под зарегистрированным пользователем
+        button_login_and_registration = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION))
+        button_login_and_registration.click()
+        googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(TestUserData.TEST_EMAIL)
+        googleDriver.find_element(*AuthLocators.INPUT_PASSWORD).send_keys(TestUserData.TEST_PASSWORD)
+        googleDriver.find_element(*AuthLocators.BUTTON_LOGIN).click()
+
+        #проверка урла
+        assert googleDriver.current_url == Urls.LOGIN_URL
+
+        #проверка имени юзера
+        user_name_element = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.USER_NAME_ELEMENT)).text
+        assert user_name_element == "User."
+
+        #проверка отображения аватарки
+        assert googleDriver.find_element(*HeaderLocators.BUTTON_AVATAR).is_displayed()
+
+    #тест на выход
+    def test_logout(self, googleDriver: WebDriver):
+        #открытие страницы
+        googleDriver.get(Urls.BASE_URL)
+
+        #вход под зарегистрированным пользователем
+        button_login_and_registration = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION))
+        button_login_and_registration.click()
+        googleDriver.find_element(*AuthLocators.INPUT_EMAIL).send_keys(TestUserData.TEST_EMAIL)
+        googleDriver.find_element(*AuthLocators.INPUT_PASSWORD).send_keys(TestUserData.TEST_PASSWORD)
+        googleDriver.find_element(*AuthLocators.BUTTON_LOGIN).click()
+
+        #ждет появление кнопки "Выйти" и нажимает ее
+        button_logout = WebDriverWait(googleDriver, 3).until(expected_conditions.element_to_be_clickable(HeaderLocators.BUTTON_LOGOUT))
+        button_logout.click()
+
+        #проверка отображения кнопки Вход и регистрация
+        assert googleDriver.find_element(*HeaderLocators.BUTTON_LOGIN_AND_REGISTRATION).is_displayed()
+
+        #проверка что имя юзера не отображается
+        assert WebDriverWait(googleDriver, 3).until(expected_conditions.invisibility_of_element(HeaderLocators.USER_NAME_ELEMENT))
+
+        #проверка что аватарка не отображается
+        assert len(googleDriver.find_elements(*HeaderLocators.BUTTON_AVATAR)) == 0
